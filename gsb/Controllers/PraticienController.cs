@@ -29,28 +29,8 @@ namespace gsb.Controllers
             }
         }
 
-        // Méthodes pour gérer les invitations
 
-        [HttpGet]
-        public IActionResult AjouterInvitation()
-        {
-            return View("AjouterInvitation");
-        }
-
-        [HttpPost]
-        public IActionResult AjouterInvitation(int idActiviteCompl, int idPraticien, bool specialiste)
-        {
-            try
-            {
-                ServicePraticien.AjouterInvitation(idActiviteCompl, idPraticien, specialiste);
-                return RedirectToAction("Index", "listePraticien"); // Redirection vers une autre vue après l'ajout
-            }
-            catch (MonException e)
-            {
-                return NotFound();
-            }
-        }
-
+      
 
         //  //rechercher par nom 
 
@@ -75,7 +55,23 @@ namespace gsb.Controllers
             }
         }
 
+        // Méthode d'action pour traiter l'ajout d'invitation
+        [HttpPost]
+        public IActionResult AjouterInvitation(int idActiviteCompl, int idPraticien, bool specialiste)
+        {
+            try
+            {
+                // Appeler le service pour ajouter l'invitation
+                ServicePraticien.AjouterInvitation(idActiviteCompl, idPraticien, specialiste);
 
-
+                // Redirection vers une autre vue après l'ajout
+                return RedirectToAction("ListePraticien");
+            }
+            catch (MonException e)
+            {
+                // Gérer les exceptions ici
+                return NotFound();
+            }
+        }
     }
 }

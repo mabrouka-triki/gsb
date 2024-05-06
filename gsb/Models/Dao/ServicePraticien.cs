@@ -82,15 +82,16 @@ namespace gsb.Models.Dao
             }
         }
 
-
         public static void AjouterInvitation(int idActiviteCompl, int idPraticien, bool specialiste)
         {
-            Serreurs er = new Serreurs("Erreur lors de l'ajout de l'invitation à une activité.", "ServicePraticien.AjouterInvitation()");
-            String requete = "INSERT INTO INVITER (id_activite_compl, id_praticien, specialiste) " +
-                             "VALUES (" + idActiviteCompl + ", " + idPraticien + ", " + (specialiste ? 1 : 0) + ")";
+            Serreurs er = new Serreurs("Erreur lors de l'ajout de l'invitation.", "ServicePraticien.AjouterInvitation()");
 
             try
             {
+                string requete = @"
+            INSERT INTO INVITER (id_activite_compl, id_praticien, specialiste)
+            VALUES (" + idActiviteCompl + ", " + idPraticien + ", " + (specialiste ? 1 : 0) + ")";
+
                 DBInterface.Execute_Transaction(requete);
             }
             catch (MonException erreur)
