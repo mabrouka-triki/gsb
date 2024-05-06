@@ -1,0 +1,48 @@
+﻿@model WebGsbAspCore.Models.Metier.Invitation
+
+@{
+    ViewBag.Title = "Ajouter Invitation";
+    Layout = "~/Views/Shared/_layoutGsb.cshtml";
+}
+
+<h2>Ajouter une invitation à une activité</h2>
+
+@using (Html.BeginForm("AjouterInvitation", "Praticien", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            <label asp-for="Id_activite_compl" class="control-label col-md-2">ID Activité</label>
+            <div class="col-md-10">
+                <input asp-for="Id_activite_compl" class="form-control" />
+                <span asp-validation-for="Id_activite_compl" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Id_praticien" class="control-label col-md-2">ID Praticien</label>
+            <div class="col-md-10">
+                <input asp-for="Id_praticien" class="form-control" />
+                <span asp-validation-for="Id_praticien" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Specialiste" class="control-label col-md-2">Spécialiste</label>
+            <div class="col-md-10">
+                <input asp-for="Specialiste" class="form-control" />
+                <span asp-validation-for="Specialiste" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="submit" class="btn btn-primary">Enregistrer</button>
+            </div>
+        </div>
+    </div>
+}

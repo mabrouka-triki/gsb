@@ -1,0 +1,48 @@
+﻿@model System.Data.DataTable
+@using System.Data
+
+@{
+    ViewBag.Title = "Recherche par Nom de Praticien";
+    Layout = "~/Views/Shared/_layoutGsb.cshtml";
+}
+
+
+
+<div class="container">
+    <div class="col-md-8 col-sm-8">
+        <div class="blanc">
+            <h1>Recherche par Nom de Praticien</h1>
+            <input type="text" id="nomPraticien" />
+            <br /><br />
+            <div id="detailsPraticien"></div>
+            <br /><br />
+            <div class="">
+                <a href="/" class="btn btn-default btn-primary">Retourner à l'accueil</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#nomPraticien').on('input', function () {
+            var nomPraticien = $(this).val();
+            if (nomPraticien !== "") {
+                $.ajax({
+                    url: '@Url.Action("RechercherParNom", "Praticien")',
+                    type: 'POST',
+                    data: { nomPraticien: nomPraticien },
+                    success: function (data) {
+                        $('#detailsPraticien').html(data);
+                    },
+                    error: function () {
+                        $('#detailsPraticien').html('<p>Une erreur s\'est produite lors de la récupération des détails du praticien.</p>');
+                    }
+                });
+            } else {
+                $('#detailsPraticien').empty();
+            }
+        });
+    });
+</script>

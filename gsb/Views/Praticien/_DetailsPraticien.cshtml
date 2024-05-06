@@ -1,0 +1,40 @@
+﻿@model System.Data.DataTable
+@using System.Data
+
+
+
+
+@if (Model != null && Model.Rows.Count > 0)
+{
+    <div class="container">
+        <div class="col-md-8 col-sm-8">
+            <div class="blanc">
+                <h1>Détails du Praticien</h1>
+                <table class="table table-bordered table-striped table-responsive">
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Motif de l'Activité</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (DataRow dataRow in Model.Rows)
+                        {
+                            <tr>
+                                <td>@dataRow["nom_praticien"].ToString()</td>
+                                <td>@dataRow["prenom_praticien"].ToString()</td>
+                                <td>@dataRow["motif_activite"].ToString()</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <p>Aucun praticien trouvé avec ce nom.</p>
+}

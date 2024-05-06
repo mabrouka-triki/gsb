@@ -1,0 +1,54 @@
+﻿@model System.Data.DataTable
+
+@{
+    ViewBag.Title = "Affichage d'un praticien";
+    Layout = "~/Views/Shared/_layoutGsb.cshtml";
+}
+
+<div class="container">
+    <div class="col-md-12">
+        <div class="blanc">
+            <h1>Liste des praticiens avec détails de l'invitation à une activité complémentaire</h1>
+        </div>
+
+        <table class="table table-bordered table-striped table-responsive">
+            <thead>
+                <tr>
+                    <th>Nom Praticien</th>
+                    <th>Prénom Praticien</th>
+                    <th>Date Activité</th>
+                    <th>Lieu Activité</th>
+                    <th>Thème Activité</th>
+                    <th>Motif Activité</th>
+                    <th>Actions</th> <!-- Nouvelle colonne pour les actions -->
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Rows.Count > 0)
+                {
+                    @foreach (System.Data.DataRow row in Model.Rows)
+                    {
+                        <tr>
+                            <td>@row["nom_praticien"]</td>
+                            <td>@row["prenom_praticien"]</td>
+                            <td>@row["date_activite"]</td>
+                            <td>@row["lieu_activite"]</td>
+                            <td>@row["theme_activite"]</td>
+                            <td>@row["motif_activite"]</td>
+                            <td>
+
+                                <a href="/Praticien/AjoutInvitationPraticien" class="btn btn-primary"><i class="bi bi-plus"></i> Ajouter</a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="7">Aucun praticien trouvé.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
