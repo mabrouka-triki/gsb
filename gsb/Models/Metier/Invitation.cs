@@ -1,4 +1,4 @@
-﻿namespace WebGsbAspCore.Models.Metier
+﻿namespace gsb.Models.Metier
 {
     public class Invitation
     {

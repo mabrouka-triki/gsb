@@ -2,10 +2,8 @@
 using gsb.Models.Dao;
 using gsb.Models.MesExceptions;
 using System;
-using gsb.Models.Metier;
-using gsb.Models.Dao;
-using gsb.Models.Metier;
 using System.Data;
+using gsb.Models.Metier;
 
 namespace gsb.Controllers
 {
@@ -29,11 +27,7 @@ namespace gsb.Controllers
             }
         }
 
-
-      
-
-        //  //rechercher par nom 
-
+        // Méthode d'action pour afficher le formulaire de recherche de praticien
         [HttpGet]
         public IActionResult RechercherPraticien()
         {
@@ -55,23 +49,42 @@ namespace gsb.Controllers
             }
         }
 
-        // Méthode d'action pour traiter l'ajout d'invitation
-        [HttpPost]
-        public IActionResult AjouterInvitation(int idActiviteCompl, int idPraticien, bool specialiste)
+        
+
+        public IActionResult AjouterInvitation()
         {
             try
             {
-                // Appeler le service pour ajouter l'invitation
-                ServicePraticien.AjouterInvitation(idActiviteCompl, idPraticien, specialiste);
+                var praticiens = ServicePraticien.ObtenirPraticiens();
+                var activites = ServicePraticien.ObtenirActivites();
+                Invitation uneInvitation = new Invitation();
 
-                // Redirection vers une autre vue après l'ajout
-                return RedirectToAction("ListePraticien");
+                ViewBag.Praticiens = praticiens;
+                ViewBag.Activites = activites;
+
+                return View(uneInvitation);
             }
             catch (MonException e)
             {
-                // Gérer les exceptions ici
                 return NotFound();
             }
         }
+
+        // Méthode d'action pour traiter la soumission du formulaire d'ajout d'une invitation (POST)
+        [HttpPost]
+        public IActionResult AjouterInvitation(Invitation uneInvitation)
+        {
+            try
+            {
+                ServicePraticien.InsertInvitation(uneInvitation);
+                return RedirectToAction("ListePraticien"); // Redirection vers une autre action
+            }
+            catch (MonException e)
+            {
+                return NotFound();
+            }
+        }
+
+
     }
 }

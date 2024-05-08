@@ -1,48 +1,53 @@
-﻿@model WebGsbAspCore.Models.Metier.Invitation
+﻿@model gsb.Models.Metier.Invitation
 
 @{
-    ViewBag.Title = "Ajouter Invitation";
+    ViewBag.Title = "Ajouter une invitation";
     Layout = "~/Views/Shared/_layoutGsb.cshtml";
 }
 
-<h2>Ajouter une invitation à une activité complémentaire</h2>
+<h1>@ViewBag.Title</h1>
 
-@using (Html.BeginForm("AjouterInvitation", "Praticien", FormMethod.Post))
+@if (Model != null)
 {
-    @Html.AntiForgeryToken()
+    @using (Html.BeginForm("AjouterInvitation", "Praticien", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="card col-8 mx-auto mt-5">
+            <div class="card-body">
+                <h3 class="card-title">Ajouter une invitation</h3>
+                <div class="form-horizontal">
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        <div class="form-group">
-            <label asp-for="Id_activite_compl" class="control-label col-md-2">ID Activité</label>
-            <div class="col-md-10">
-                <input asp-for="Id_activite_compl" class="form-control" />
-                <span asp-validation-for="Id_activite_compl" class="text-danger"></span>
+                    <div class="form-group">
+                        <label for="id_praticien">Praticien :</label>
+                        <select class="form-control" id="id_praticien" name="id_praticien">
+                            @foreach (var praticien in ViewBag.Praticiens)
+                            {
+                                <option value="@praticien.Id_praticien">@praticien.Id_praticien - @praticien.Nom_praticien @praticien.Prenom_praticien</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_activite_compl">Activite :</label>
+                        <select class="form-control" id="id_activite_compl" name="id_activite_compl">
+                            @foreach (var activite in ViewBag.Activites)
+                            {
+                                <option value="@activite.Id_activite_compl">@activite.Motif_activite</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="specialiste">Spécialiste :</label>
+                        <input name="specialiste" type="text" class="form-control" id="specialiste" />
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Enregistrer" class="btn btn-primary" />
+                    </div>
+                </div>
             </div>
         </div>
-
-        <div class="form-group">
-            <label asp-for="Id_praticien" class="control-label col-md-2">ID Praticien</label>
-            <div class="col-md-10">
-                <input asp-for="Id_praticien" class="form-control" />
-                <span asp-validation-for="Id_praticien" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="Specialiste" class="control-label col-md-2">Spécialiste</label>
-            <div class="col-md-10">
-                <input asp-for="Specialiste" class="form-control" />
-                <span asp-validation-for="Specialiste" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <button type="submit" class="btn btn-primary">Enregistrer</button>
-            </div>
-        </div>
-    </div>
+    }
 }
