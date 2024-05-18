@@ -20,7 +20,7 @@
                     <th>Lieu Activité</th>
                     <th>Thème Activité</th>
                     <th>Motif Activité</th>
-                    <th>Actions</th> <!-- Nouvelle colonne pour les actions -->
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,8 +36,7 @@
                             <td>@row["theme_activite"]</td>
                             <td>@row["motif_activite"]</td>
                             <td>
-
-                                <a href="/Praticien/AjouterInvitation" class="btn btn-primary"><i class="bi bi-plus"></i> Ajouter</a>
+                                <a href="/Praticien/AjouterInvitation?idPraticien=@row["id_praticien"]" class="btn btn-primary"><i class="bi bi-plus"></i> Ajouter</a>
                             </td>
                         </tr>
                     }
@@ -48,6 +47,7 @@
                         <td colspan="7">Aucun praticien trouvé.</td>
                     </tr>
                 }
+
             </tbody>
         </table>
     </div>

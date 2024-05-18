@@ -1,4 +1,4 @@
-﻿@model gsb.Models.Metier.Invitation
+﻿@model gsb.Models.Metier.Activite
 
 @{
     ViewBag.Title = "Ajouter une invitation";
@@ -20,29 +20,28 @@
                     <hr />
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
+                   
+
                     <div class="form-group">
-                        <label for="id_praticien">Praticien :</label>
-                        <select class="form-control" id="id_praticien" name="id_praticien">
-                            @foreach (var praticien in ViewBag.Praticiens)
-                            {
-                                <option value="@praticien.Id_praticien">@praticien.Id_praticien - @praticien.Nom_praticien @praticien.Prenom_praticien</option>
-                            }
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="id_activite_compl">Activite :</label>
-                        <select class="form-control" id="id_activite_compl" name="id_activite_compl">
-                            @foreach (var activite in ViewBag.Activites)
-                            {
-                                <option value="@activite.Id_activite_compl">@activite.Motif_activite</option>
-                            }
-                        </select>
+                        <label for="date_activite">Date de l'activité :</label>
+                        <input type="date" class="form-control" id="date_activite" name="date_activite" />
                     </div>
 
                     <div class="form-group">
-                        <label for="specialiste">Spécialiste :</label>
-                        <input name="specialiste" type="text" class="form-control" id="specialiste" />
+                        <label for="lieu_activite">Lieu de l'activité :</label>
+                        <input type="text" class="form-control" id="lieu_activite" name="lieu_activite" />
                     </div>
+
+                    <div class="form-group">
+                        <label for="theme_activite">Thème de l'activité :</label>
+                        <input type="text" class="form-control" id="theme_activite" name="theme_activite" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="motif_activite">Motif de l'activité :</label>
+                        <input type="text" class="form-control" id="motif_activite" name="motif_activite" />
+                    </div>
+
                     <div class="form-group">
                         <input type="submit" value="Enregistrer" class="btn btn-primary" />
                     </div>

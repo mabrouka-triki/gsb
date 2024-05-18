@@ -2,14 +2,13 @@
 {
     public class Activite
     {
-
-        private int id_activite_compl;
-        private string motif_activite;
-       
-
-        public int Id_activite_compl { get => id_activite_compl; set => id_activite_compl = value; }
-        public string Motif_activite { get => motif_activite; set => motif_activite = value; }
-    
+        public int id_activite_compl { get; set; }
+        public string date_activite { get; set; }
+        public string lieu_activite { get; set; }
+        public string theme_activite { get; set; }
+        public string motif_activite { get; set; }
+        public int id_praticien { get; set; } // Ajoutez l'ID du praticien ici
 
     }
 }
+

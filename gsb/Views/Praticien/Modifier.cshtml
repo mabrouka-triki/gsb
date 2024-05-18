@@ -1,0 +1,44 @@
+﻿@model gsb.Models.Metier.Invitation
+
+@{
+    ViewBag.Title = "Modifier une invitation";
+    Layout = "~/Views/Shared/_layoutGsb.cshtml";
+}
+
+<h1>@ViewBag.Title</h1>
+
+@if (Model != null)
+{
+    @using (Html.BeginForm("Modifier", "Praticien", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="card col-8 mx-auto mt-5">
+            <div class="card-body">
+                <h3 class="card-title">Modifier une invitation</h3>
+                <div class="form-horizontal">
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="form-group">
+                        <label for="id_praticien">Praticien :</label>
+                        <input type="hidden" name="id_praticien" value="@Model.Id_praticien" />
+                        <input type="text" class="form-control" value="@Model.Id_praticien" disabled />
+                    </div>
+                    <div class="form-group">
+                        <label for="id_activite_compl">Activité :</label>
+                        <input type="hidden" name="id_activite_compl" value="@Model.Id_activite_compl" />
+                        <input type="text" class="form-control" value="@Model.Id_activite_compl" disabled />
+                    </div>
+                    <div class="form-group">
+                        <label for="specialiste">Spécialiste :</label>
+                        <input name="specialiste" type="checkbox" class="form-control" id="specialiste" @(Model.Specialiste ? "checked" : "") />
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Enregistrer" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}

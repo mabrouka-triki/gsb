@@ -4,6 +4,7 @@ using gsb.Models.MesExceptions;
 using gsb.Models.Metier;
 using gsb.Models.Persistance;
 
+
 namespace gsb.Models.Dao
 {
     public class ServicePraticien
@@ -80,23 +81,26 @@ namespace gsb.Models.Dao
             }
         }
 
-        public static void AjouterInvitation(int idActiviteCompl, int idPraticien, bool specialiste)
+        public static void AjouterInvitation(int idActiviteCompl, DateTime dateActivite, string lieuActivite, string motifActivite, string themeActivite)
         {
             Serreurs er = new Serreurs("Erreur lors de l'ajout de l'invitation.", "ServicePraticien.AjouterInvitation()");
 
             try
             {
-                string requete = @"
-            INSERT INTO INVITER (id_activite_compl, id_praticien, specialiste)
-            VALUES (" + idActiviteCompl + ", " + idPraticien + ", " + (specialiste ? 1 : 0) + ")";
+                string requeteActivite = @"
+            INSERT INTO ACTIVITE_COMPL (id_activite_compl, date_activite, lieu_activite, motif_activite, theme_activite) 
+            VALUES (" + idActiviteCompl + ", '" + dateActivite.ToString("yyyy-MM-dd") + "', '" + lieuActivite + "', '" + motifActivite + "', '" + themeActivite + "')";
 
-                DBInterface.Execute_Transaction(requete);
+                DBInterface.Execute_Transaction(requeteActivite);
             }
             catch (MonException erreur)
             {
                 throw erreur;
             }
         }
+
+
+
         public static List<Praticien> ObtenirPraticiens()
         {
             try
@@ -116,7 +120,6 @@ namespace gsb.Models.Dao
 
                     listePraticiens.Add(praticien);
                 }
-
                 return listePraticiens;
             }
             catch (Exception ex)
@@ -153,12 +156,10 @@ namespace gsb.Models.Dao
                 foreach (DataRow row in activites.Rows)
                 {
                     Activite activite = new Activite();
-                    activite.Id_activite_compl = Convert.ToInt32(row["id_activite_compl"]);
-                    activite.Motif_activite = row["motif_activite"].ToString();
-
+                    activite.id_activite_compl = Convert.ToInt32(row["id_activite_compl"]);
+                    activite.motif_activite = row["motif_activite"].ToString();
                     listeActivites.Add(activite);
                 }
-
                 return listeActivites;
             }
             catch (Exception ex)
@@ -167,6 +168,50 @@ namespace gsb.Models.Dao
             }
         }
 
+        public static void ModifierInvitation(int idActiviteCompl, bool specialiste)
+        {
+            Serreurs er = new Serreurs("Erreur lors de la modification de l'invitation.", "ServicePraticien.ModifierInvitation()");
+
+            try
+            {
+                string requete = @"
+                UPDATE INVITER 
+                SET specialiste = " + (specialiste ? 1 : 0) + @" 
+                WHERE id_activite_compl = " + idActiviteCompl + ";";
+
+                DBInterface.Execute_Transaction(requete);
+            }
+            catch (MonException erreur)
+            {
+                throw erreur;
+            }
+        }
+        public static Invitation GetInvitation(int idInvitation)
+        {
+            try
+            {
+                Serreurs er = new Serreurs("Erreur lors de la récupération de l'invitation.", "ServicePraticien.GetInvitation()");
+                var invitation = DBInterface.Lecture("SELECT id_activite_compl, id_praticien, specialiste FROM inviter WHERE id_activite_compl = " + idInvitation, er);
+
+                if (invitation.Rows.Count > 0)
+                {
+                    Invitation uneInvitation = new Invitation();
+                    uneInvitation.Id_activite_compl = Convert.ToInt32(invitation.Rows[0]["id_activite_compl"]);
+                    uneInvitation.Id_praticien = Convert.ToInt32(invitation.Rows[0]["id_praticien"]);
+                    uneInvitation.Specialiste = Convert.ToBoolean(invitation.Rows[0]["specialiste"]);
+
+                    return uneInvitation;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+                throw new MonException("Erreur lors de la récupération de l'invitation.", "ServicePraticien.GetInvitation()", e.Message);
+            }
+        }
 
     }
 }
