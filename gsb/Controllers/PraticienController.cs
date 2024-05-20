@@ -23,7 +23,10 @@ namespace gsb.Controllers
             }
         }
 
-        // Méthode d'action pour afficher le formulaire de recherche de praticien
+
+
+        // Méthode d'action pour afficher le formulaire de recherche de praticien 
+
         [HttpGet]
         public IActionResult RechercherPraticien()
         {
@@ -44,40 +47,34 @@ namespace gsb.Controllers
             }
         }
 
-        [HttpGet]
-        public IActionResult AjouterInvitation()
-        {
-            try
-            {
-                var praticiens = ServicePraticien.ObtenirPraticiens();
-                var activites = ServicePraticien.ObtenirActivites();
-                var uneActivite = new Activite();
 
-                ViewBag.Praticiens = praticiens;
-                ViewBag.Activites = activites;
 
-                return View(uneActivite);
-            }
-            catch (MonException e)
-            {
-                return NotFound();
-            }
-        }
-
+        // pour  ajouter  une invitation 
         [HttpPost]
-        public IActionResult AjouterInvitation(Activite uneActivite)
+        [HttpPost]
+        public IActionResult AjouterInvitation(Activite uneActivite, int id_praticien)
         {
             try
             {
-                if (ModelState.IsValid)
+                if (ModelState.IsValid && id_praticien > 0)
                 {
-                    // Convertir la chaîne de caractères en DateTime
-                    DateTime dateActivite = DateTime.Parse(uneActivite.date_activite);
-                    string lieuActivite = uneActivite.lieu_activite;
-                    string motifActivite = uneActivite.motif_activite;
-                    string theme_activite = uneActivite.theme_activite;
-                    ServicePraticien.AjouterInvitation(0, dateActivite, lieuActivite, motifActivite, theme_activite); 
-                    return RedirectToAction("listePraticien");
+                    // Ajout de l'activité et récupération de son ID
+                    int idActiviteCompl = ServicePraticien.AjouterActivite(uneActivite.date_activite, uneActivite.lieu_activite, uneActivite.motif_activite, uneActivite.theme_activite);
+
+                    // Vérifier si l'ajout de l'activité a réussi
+                    if (idActiviteCompl > 0)
+                    {
+                        // Insertion de l'invitation en utilisant l'ID de l'activité et l'ID du praticien
+                        ServicePraticien.InsertInvitation(new Invitation { Id_activite_compl = idActiviteCompl, Id_praticien = id_praticien });
+
+                        return RedirectToAction("ListePraticien");
+                    }
+                    else
+                    {
+                        // Si l'ajout de l'activité a échoué, retourne la vue avec le modèle d'activité
+                        ModelState.AddModelError(string.Empty, "Erreur lors de l'ajout de l'activité.");
+                        return View(uneActivite);
+                    }
                 }
                 else
                 {
@@ -89,6 +86,9 @@ namespace gsb.Controllers
                 return StatusCode(500);
             }
         }
+
+
+
 
 
 
@@ -113,6 +113,7 @@ namespace gsb.Controllers
             }
         }
 
+
         [HttpPost]
         public IActionResult Modifier(Invitation invitation)
         {
@@ -121,6 +122,7 @@ namespace gsb.Controllers
                 if (ModelState.IsValid)
                 {
                     ServicePraticien.ModifierInvitation(invitation.Id_activite_compl, invitation.Specialiste);
+
                     return RedirectToAction("ListePraticien");
                 }
                 else

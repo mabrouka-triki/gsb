@@ -7,7 +7,6 @@
         public string lieu_activite { get; set; }
         public string theme_activite { get; set; }
         public string motif_activite { get; set; }
-        public int id_praticien { get; set; } // Ajoutez l'ID du praticien ici
 
     }
 }
